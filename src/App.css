@@ -1,0 +1,62 @@
+/* App.css */
+:root {
+  --russian-violet: #3a015c;
+  --palatinate: #4f0147;
+  --dark-purple1: #35012c;
+  --dark-purple2: #290025;
+  --dark-purple3: #11001c;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Arial", sans-serif;
+  color: white;
+  background-color: var(--dark-purple3);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.app {
+  text-align: center;
+  background-color: var(--russian-violet);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+button {
+  background-color: var(--palatinate);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: var(--dark-purple1);
+}
+
+.seed-container {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.seed-word {
+  background-color: var(--dark-purple2);
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
