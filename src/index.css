@@ -6,10 +6,19 @@
 
 @font-face {
   font-family: "Lineal-Bold";
-  src: url("../public/TTF/Lineal-Bold.ttf") format("truetype");
-  src: url("../public/TTF/Lineal-Heavy.ttf") format("truetype");
+  src: url("../public/TTF/Lineal-Medium.ttf") format("truetype");
+
+  font-weight: normal;
+  font-style: normal;
+}
+body,
+html {
+  font-family: Lineal-Bold;
+  font-weight: normal;
+  font-style: normal;
 }
 
 h1 {
   font-family: Lineal-Bold;
+  font-weight: bolder;
 }
