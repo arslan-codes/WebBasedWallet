@@ -39,9 +39,7 @@ const EthWallet = () => {
         <div className="navbar-end"></div>
       </div>
 
-      <div className="content">
-        <p>Your mnemonic: {mnemonic}</p>
-      </div>
+      <div className="content"></div>
     </div>
   );
 };
