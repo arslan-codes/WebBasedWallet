@@ -4,6 +4,8 @@ import { Wallet, HDNodeWallet, ethers } from "ethers";
 import { Alchemy, Network } from "alchemy-sdk";
 import { sendJsonRpcRequest } from "./utils/jsonRpc";
 
+const apiKey = process.env.alchemy_api;
+
 const alchemy = new Alchemy({
   apiKey: "Cojj_FwYQcr0bGp1MlsIMdiCnoZffDcT", // Replace with your Alchemy API key
   network: Network.ETH_MAINNET,

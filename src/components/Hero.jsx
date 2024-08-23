@@ -18,7 +18,10 @@ const Hero = () => {
             A crypto wallet generated with advanced Hashing and Cryptographic
             Techniques
           </p>
-          <button className="btn btn-primary" onClick={handleGetStarted}>
+          <button
+            className="btn btn-primary btn-square w-44 hover:bg-base-200"
+            onClick={handleGetStarted}
+          >
             Get Started
           </button>
         </div>

@@ -26,6 +26,8 @@ const MnemonicPage = () => {
     setMnemonic(mn);
     localStorage.setItem("mnemonic", mn);
     setDisabled(true);
+    localStorage.removeItem("wallets");
+
     setresetbtn(false);
     navigate(`/mnemonic?mnemonic=${encodeURIComponent(mn)}`);
   };
@@ -46,10 +48,14 @@ const MnemonicPage = () => {
   };
   const resetphrase = () => {
     setMnemonic("");
-    localStorage.setItem("mnemonic", "");
     setDisabled(false);
     setresetbtn(true);
+
+    localStorage.removeItem("mnemonic");
+    localStorage.removeItem("wallets");
+    localStorage.removeItem("solwallets");
   };
+
   return (
     <div className="bg-base-200 min-h-screen">
       <Header />
