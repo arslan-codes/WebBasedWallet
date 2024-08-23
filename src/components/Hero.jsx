@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import heroImage from "../assets/hero-image.png";
+import heroImage from "../assets/dazzle-line-online-banking.gif";
+import cryptoMan from "../assets/hero-image3.png";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Hero = () => {
             Techniques
           </p>
           <button
-            className="btn btn-primary btn-square w-44 hover:bg-base-200"
+            className="btn bg-base-300 text-white border-0 btn-square w-44 hover:bg-black"
             onClick={handleGetStarted}
           >
             Get Started

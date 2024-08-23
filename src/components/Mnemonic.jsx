@@ -57,9 +57,10 @@ const MnemonicPage = () => {
   };
 
   return (
-    <div className="bg-base-200 min-h-screen">
+    <div className="bg-base-200  min-h-screen">
       <Header />
-      <div className="hero">
+
+      <div className="hero ">
         <div className="hero-content flex-col w-full justify-center">
           <div className="lg:text-left">
             <h1 className="text-3xl font-bold mb-6 text-center">

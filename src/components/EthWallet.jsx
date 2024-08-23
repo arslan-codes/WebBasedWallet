@@ -10,9 +10,9 @@ const EthWallet = () => {
   const [wallets, setWallets] = useState([]);
   const [selectedPrivateKey, setSelectedPrivateKey] = useState("");
   const [balances, setBalances] = useState({});
-
+  const api = process.env.REACT_APP_ALCHEMY_API_KEY;
   const provider = new ethers.JsonRpcProvider(
-    "https://eth-mainnet.g.alchemy.com/v2/Cojj_FwYQcr0bGp1MlsIMdiCnoZffDcT"
+    `https://solana-devnet.g.alchemy.com/v2/${api}`
   );
 
   const goBack = () => {
@@ -37,12 +37,17 @@ const EthWallet = () => {
       const child = hdNode.derivePath(derivationPath);
       const privateKey = child.privateKey;
       const wallet = new ethers.Wallet(privateKey);
+      const balance = await getBalance(wallet.getAddress());
 
       setIndex(currentIndex + 1);
 
       const newWallets = [
         ...wallets,
-        { address: await wallet.getAddress(), privateKey },
+        {
+          address: await wallet.getAddress(),
+          privateKey: privateKey,
+          balance: balance,
+        },
       ];
       setWallets(newWallets);
 
@@ -69,13 +74,13 @@ const EthWallet = () => {
     document.getElementById("my_modal_4").showModal();
   };
 
-  const checkBalance = async (address) => {
-    const bal = await getBalance(address);
-    setBalances((prevBalances) => ({
-      ...prevBalances,
-      [address]: bal,
-    }));
-  };
+  // const checkBalance = async (address) => {
+  //   const bal = await getBalance(address);
+  //   setBalances((prevBalances) => ({
+  //     ...prevBalances,
+  //     [address]: bal,
+  //   }));
+  // };
 
   return (
     <div className="bg-base-200 min-h-screen bg-warning">
@@ -123,12 +128,12 @@ const EthWallet = () => {
         {wallets.map((wallet, index) => (
           <div
             key={index}
-            className="text-black m-5 full flex items-center justify-between p-7 bg-base-100 rounded-md"
+            className="text-black m-5 w-3/4 flex items-center justify-between p-7 bg-base-100 rounded-md"
           >
             <p>
               Eth - {wallet.address}
               <br />
-              Balance: {balances[wallet.address] || "Not Checked"} Eth
+              Balance:{wallet.balance} Eth
             </p>
             <div className="text-center mt-4 flex flex-row items-center ">
               <button
@@ -136,13 +141,6 @@ const EthWallet = () => {
                 onClick={() => openModal(wallet.privateKey)}
               >
                 Private Key
-              </button>
-
-              <button
-                className="btn btn-primary mb-2 bg-base-300 text-white hover:bg-black border-0"
-                onClick={() => checkBalance(wallet.address)}
-              >
-                Check Balance
               </button>
             </div>
           </div>
