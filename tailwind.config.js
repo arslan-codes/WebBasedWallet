@@ -12,6 +12,10 @@ module.exports = {
 
         // Add other custom colors here
       },
+      backgroundImage: {
+        "hero-pattern": "url('src/assets/background.png)",
+        // "footer-texture": "url('/img/footer-texture.png')",
+      },
     },
   },
   plugins: [require("daisyui")],

@@ -9,10 +9,9 @@ const EthWallet = () => {
   const [currentIndex, setIndex] = useState(0);
   const [wallets, setWallets] = useState([]);
   const [selectedPrivateKey, setSelectedPrivateKey] = useState("");
-  const [balances, setBalances] = useState({});
-  const api = process.env.REACT_APP_ALCHEMY_API_KEY;
+
   const provider = new ethers.JsonRpcProvider(
-    `https://solana-devnet.g.alchemy.com/v2/${api}`
+    `https://eth-mainnet.g.alchemy.com/v2/Cojj_FwYQcr0bGp1MlsIMdiCnoZffDcT`
   );
 
   const goBack = () => {
@@ -36,8 +35,8 @@ const EthWallet = () => {
       const hdNode = ethers.HDNodeWallet.fromSeed(seed);
       const child = hdNode.derivePath(derivationPath);
       const privateKey = child.privateKey;
-      const wallet = new ethers.Wallet(privateKey);
-      const balance = await getBalance(wallet.getAddress());
+      const wallet = new ethers.Wallet(privateKey, provider);
+      const balance = await getBalance(await wallet.getAddress());
 
       setIndex(currentIndex + 1);
 
@@ -73,14 +72,6 @@ const EthWallet = () => {
     setSelectedPrivateKey(privateKey);
     document.getElementById("my_modal_4").showModal();
   };
-
-  // const checkBalance = async (address) => {
-  //   const bal = await getBalance(address);
-  //   setBalances((prevBalances) => ({
-  //     ...prevBalances,
-  //     [address]: bal,
-  //   }));
-  // };
 
   return (
     <div className="bg-base-200 min-h-screen bg-warning">
