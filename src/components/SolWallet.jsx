@@ -117,13 +117,22 @@ const SolWallet = () => {
   };
 
   const generateWallet = async () => {
-    const prevmnemonic = localStorage.getItem("mnemonic");
-    console.log(prevmnemonic);
-    if (prevmnemonic) {
-      setMnemonic(prevmnemonic);
-    }
     try {
-      const seed = bip39.mnemonicToSeedSync(prevmnemonic);
+      const prevmnemonic = localStorage.getItem("mnemonic");
+
+      if (!prevmnemonic) {
+        console.error(
+          "No mnemonic found. Please generate or import one first."
+        );
+        return; // Exit early if there's no mnemonic
+      }
+      if (prevmnemonic) {
+        setMnemonic(prevmnemonic);
+      }
+
+      console.log(prevmnemonic);
+      console.log(mnemonic);
+      const seed = bip39.mnemonicToSeedSync(mnemonic);
       const hd = HDKey.fromMasterSeed(seed.toString("hex"));
 
       const path = `m/44'/501'/${currentIndex}'/0'`;
@@ -169,61 +178,75 @@ const SolWallet = () => {
 
   return (
     <div className="bg-gradient-to-bl  from-transparent to-slate-200 text-black min-h-screen  ">
-      <Header />
-      <div className="flex-grow flex justify-center items-center  ">
-        <div className="text-center mt-4 flex flex-col items-center">
-          <h2 className="mb-4">Click here to generate your wallets</h2>
-          <button
-            className="btn btn-primary mb-2 bg-base-300 text-white hover:bg-zinc-900 border-0"
-            onClick={generateWallet}
-          >
-            Generate Wallet
-          </button>
-        </div>
-      </div>
-      <h3 className="text-center text-3xl">Here are your Solana wallets</h3>
-      <div className=" flex justify-center items-center ">
-        <div className="w-3/4 min-h-2.5  p-4 flex justify-center flex-col ">
-          {solwallets.map((wallet, index) => (
-            <div
-              key={index}
-              className="text-black mt-2 w-full flex items-center justify-between p-7 bg-white rounded-md"
+      <div className="relative isolate px-6 pt-3 lg:px-8">
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+        >
+          <div
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+          />
+        </div>{" "}
+        <Header />
+        <div className="flex-grow flex justify-center items-center  ">
+          <div className="text-center mt-4 flex flex-col items-center">
+            <h2 className="mb-4">Click here to generate your wallets</h2>
+            <button
+              className="btn btn-primary mb-2 bg-base-300 text-white hover:bg-zinc-900 border-0"
+              onClick={generateWallet}
             >
-              <p>
-                Sol - {wallet.address}
-                <br />
-                balance- {wallet.Balance}
-              </p>
-
-              <div className="text-center flex flex-row">
-                <button
-                  className="btn bg-base-300 text-white hover:bg-black border-0"
-                  onClick={() => openModal(wallet.privateKey)}
-                >
-                  Private Key
-                </button>
-                <button
-                  className="btn ml-4 bg-base-300 text-white hover:bg-black border-0"
-                  onClick={() => AirDropSol(wallet.address)}
-                >
-                  AirDrop Sol
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <dialog id="my_modal_4" className="modal">
-        <div className="modal-box w-11/12 max-w-3xl bg-white">
-          <h3 className="font-bold text-lg">Private Key!</h3>
-          <p className="py-4">{selectedPrivateKey}</p>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
+              Generate Wallet
+            </button>
           </div>
         </div>
-      </dialog>
+        <h3 className="text-center text-3xl">Here are your Solana wallets</h3>
+        <div className=" flex justify-center items-center ">
+          <div className="w-3/4 min-h-2.5  p-4 flex justify-center flex-col ">
+            {solwallets.map((wallet, index) => (
+              <div
+                key={index}
+                className="text-black mt-2 w-full flex items-center justify-between p-7 bg-white rounded-md"
+              >
+                <p>
+                  Sol - {wallet.address}
+                  <br />
+                  balance- {wallet.Balance}
+                </p>
+
+                <div className="text-center flex flex-row">
+                  <button
+                    className="btn bg-base-300 text-white hover:bg-black border-0"
+                    onClick={() => openModal(wallet.privateKey)}
+                  >
+                    Private Key
+                  </button>
+                  <button
+                    className="btn ml-4 bg-base-300 text-white hover:bg-black border-0"
+                    onClick={() => AirDropSol(wallet.address)}
+                  >
+                    AirDrop Sol
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <dialog id="my_modal_4" className="modal">
+          <div className="modal-box w-11/12 max-w-3xl bg-white">
+            <h3 className="font-bold text-lg">Private Key!</h3>
+            <p className="py-4">{selectedPrivateKey}</p>
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </div>
     </div>
   );
 };
