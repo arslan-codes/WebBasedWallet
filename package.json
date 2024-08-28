@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.7",
     "@solana/web3.js": "^1.95.3",
     "@truffle/hdwallet-provider": "^2.1.15",
     "alchemy-sdk": "^3.4.1",

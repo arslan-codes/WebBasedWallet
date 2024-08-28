@@ -11,7 +11,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="hero bg-warning min-h-screen">
+    <div className="hero bg-white min-h-screen">
       <div className="hero-content flex-col lg:flex-row w-full justify-between">
         <div className="lg:text-left">
           <h1 className="text-8xl font-bold">Crypto Web Wallet</h1>

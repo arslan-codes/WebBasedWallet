@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
+
   const goBack = () => {
     navigate("/");
   };
@@ -13,13 +14,14 @@ const Header = () => {
     navigate("/sol-wallet/:mnemonic");
   };
   const seedpage = () => {
-    navigate(-"/mnemonic"); // Navigate back in history
+    navigate("/mnemonic"); // Navigate back in history
   };
+
   return (
-    <div className="navbar shadow-lg shadow-base-100">
+    <div className="navbar text-black w-auto border-b-2 ">
       <div className="navbar-start">
         <button
-          className="btn btn-ghost text-xl flex items-center"
+          className="btn btn-ghost text-xl flex items-center  "
           onClick={goBack}
         >
           <svg
@@ -41,13 +43,13 @@ const Header = () => {
       </div>
       <div className="navbar-center">
         {" "}
-        <a className="btn btn-ghost text-xl" onClick={navigateToEthWallet}>
+        <a className="btn btn-ghost  text-xl  " onClick={navigateToEthWallet}>
           Ethereum{" "}
         </a>
-        <a className="btn btn-ghost text-xl" onClick={seedpage}>
+        <a className="btn btn-ghost text-xl " onClick={seedpage}>
           Seed Generator
         </a>
-        <a className="btn btn-ghost text-xl" onClick={solHandle}>
+        <a className="btn btn-ghost text-xl   " onClick={solHandle}>
           Solana
         </a>
       </div>

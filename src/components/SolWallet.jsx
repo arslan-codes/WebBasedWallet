@@ -11,11 +11,11 @@ import {
 
 import { HDKey } from "micro-ed25519-hdkey";
 import { Buffer } from "buffer";
-
+import Header from "./Header";
 window.Buffer = Buffer;
 
 const SolWallet = () => {
-  const { mnemonic } = useParams();
+  const [mnemonic, setMnemonic] = useState("");
   const navigate = useNavigate();
 
   const [currentIndex, setIndex] = useState(0);
@@ -117,8 +117,13 @@ const SolWallet = () => {
   };
 
   const generateWallet = async () => {
+    const prevmnemonic = localStorage.getItem("mnemonic");
+    console.log(prevmnemonic);
+    if (prevmnemonic) {
+      setMnemonic(prevmnemonic);
+    }
     try {
-      const seed = bip39.mnemonicToSeedSync(mnemonic);
+      const seed = bip39.mnemonicToSeedSync(prevmnemonic);
       const hd = HDKey.fromMasterSeed(seed.toString("hex"));
 
       const path = `m/44'/501'/${currentIndex}'/0'`;
@@ -163,80 +168,53 @@ const SolWallet = () => {
   };
 
   return (
-    <div className="bg-base-200 min-h-screen bg-warning">
-      <div className="navbar shadow-lg shadow-base-100 bg-base-100 top-0 sticky">
-        <div className="navbar-start">
-          <button
-            className="btn btn-ghost text-xl flex items-center"
-            onClick={goBack}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back
-          </button>
-        </div>
-        <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">Solana Wallet</a>
-        </div>
-        <div className="navbar-end"></div>
-      </div>
-      <div className="flex-grow flex justify-center items-center bg-warning">
+    <div className="bg-gradient-to-bl  from-transparent to-slate-200 text-black min-h-screen  ">
+      <Header />
+      <div className="flex-grow flex justify-center items-center  ">
         <div className="text-center mt-4 flex flex-col items-center">
           <h2 className="mb-4">Click here to generate your wallets</h2>
           <button
-            className="btn btn-primary mb-2 bg-base-300 text-white hover:bg-black border-0"
+            className="btn btn-primary mb-2 bg-base-300 text-white hover:bg-zinc-900 border-0"
             onClick={generateWallet}
           >
             Generate Wallet
           </button>
         </div>
       </div>
+      <h3 className="text-center text-3xl">Here are your Solana wallets</h3>
+      <div className=" flex justify-center items-center ">
+        <div className="w-3/4 min-h-2.5  p-4 flex justify-center flex-col ">
+          {solwallets.map((wallet, index) => (
+            <div
+              key={index}
+              className="text-black mt-2 w-full flex items-center justify-between p-7 bg-white rounded-md"
+            >
+              <p>
+                Sol - {wallet.address}
+                <br />
+                balance- {wallet.Balance}
+              </p>
 
-      <div className="w-auto min-h-2.5 bg-warning p-4">
-        <h3 className="text-center text-3xl">Here are your Solana wallets</h3>
-        {solwallets.map((wallet, index) => (
-          <div
-            key={index}
-            className="text-black mt-5 w-3/4 flex items-center justify-between p-7 bg-base-100 rounded-md"
-          >
-            <p>
-              Sol - {wallet.address}
-              <br />
-              balance- {wallet.Balance}
-            </p>
-
-            <div className="text-center flex flex-row">
-              <button
-                className="btn bg-base-300 text-white hover:bg-black border-0"
-                onClick={() => openModal(wallet.privateKey)}
-              >
-                Private Key
-              </button>
-              <button
-                className="btn ml-4 bg-base-300 text-white hover:bg-black border-0"
-                onClick={() => AirDropSol(wallet.address)}
-              >
-                AirDrop Sol
-              </button>
+              <div className="text-center flex flex-row">
+                <button
+                  className="btn bg-base-300 text-white hover:bg-black border-0"
+                  onClick={() => openModal(wallet.privateKey)}
+                >
+                  Private Key
+                </button>
+                <button
+                  className="btn ml-4 bg-base-300 text-white hover:bg-black border-0"
+                  onClick={() => AirDropSol(wallet.address)}
+                >
+                  AirDrop Sol
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-
       <dialog id="my_modal_4" className="modal">
-        <div className="modal-box w-11/12 max-w-3xl bg-base-100">
+        <div className="modal-box w-11/12 max-w-3xl bg-white">
           <h3 className="font-bold text-lg">Private Key!</h3>
           <p className="py-4">{selectedPrivateKey}</p>
           <div className="modal-action">

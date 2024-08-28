@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { mnemonicToSeed } from "bip39";
 import { ethers } from "ethers";
+import Header from "./Header";
 
 const EthWallet = () => {
-  const { mnemonic } = useParams();
+  const [mnemonic, setMnemonic] = useState("");
+  // const { mnemonic } = useParams();
   const navigate = useNavigate();
   const [currentIndex, setIndex] = useState(0);
   const [wallets, setWallets] = useState([]);
@@ -13,10 +15,6 @@ const EthWallet = () => {
   const provider = new ethers.JsonRpcProvider(
     `https://eth-mainnet.g.alchemy.com/v2/Cojj_FwYQcr0bGp1MlsIMdiCnoZffDcT`
   );
-
-  const goBack = () => {
-    navigate(-1);
-  };
 
   const getBalance = async (address) => {
     try {
@@ -30,6 +28,11 @@ const EthWallet = () => {
 
   const generateWallet = async () => {
     try {
+      const prevmnemonic = localStorage.getItem("mnemonic");
+      console.log(prevmnemonic);
+      if (prevmnemonic) {
+        setMnemonic(prevmnemonic);
+      }
       const seed = await mnemonicToSeed(mnemonic);
       const derivationPath = `m/44'/60'/${currentIndex}'/0/0`;
       const hdNode = ethers.HDNodeWallet.fromSeed(seed);
@@ -74,36 +77,9 @@ const EthWallet = () => {
   };
 
   return (
-    <div className="bg-base-200 min-h-screen bg-warning">
-      <div className="navbar shadow-lg shadow-base-100 bg-base-100 top-0 sticky">
-        <div className="navbar-start">
-          <button
-            className="btn btn-ghost text-xl flex items-center"
-            onClick={goBack}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back
-          </button>
-        </div>
-        <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">Ethereum Wallet</a>
-        </div>
-        <div className="navbar-end"></div>
-      </div>
-      <div className="flex-grow flex w-full justify-center flex-row  bg-warning">
+    <div className="bg-gradient-to-bl  from-transparent to-slate-200 text-black   min-h-screen ">
+      <Header />
+      <div className="flex-grow flex w-full justify-center flex-row  ">
         <div className="text-center mt-4 flex flex-row items-center">
           <button
             className="btn btn-primary mb-2 bg-base-300 text-white hover:bg-black border-0"
@@ -113,33 +89,33 @@ const EthWallet = () => {
           </button>
         </div>
       </div>
-      <div className="flex-grow flex justify-center items-center bg-warning"></div>
-      <div className="w-auto min-h-2.5 bg-warning p-4">
-        <h3 className="text-center text-3xl">Here are your wallets</h3>
-        {wallets.map((wallet, index) => (
-          <div
-            key={index}
-            className="text-black m-5 w-3/4 flex items-center justify-between p-7 bg-base-100 rounded-md"
-          >
-            <p>
-              Eth - {wallet.address}
-              <br />
-              Balance:{wallet.balance} Eth
-            </p>
-            <div className="text-center mt-4 flex flex-row items-center ">
-              <button
-                className="btn btn-primary mb-2 mx-6 bg-base-300 text-white hover:bg-black border-0"
-                onClick={() => openModal(wallet.privateKey)}
-              >
-                Private Key
-              </button>
+      <h3 className="text-center text-3xl">Here are your wallets</h3>
+      <div className=" flex justify-center items-center ">
+        <div className="w-auto min-h-2.5  p-3 flex justify-center flex-col">
+          {wallets.map((wallet, index) => (
+            <div
+              key={index}
+              className="text-black m-2 w-full flex items-center justify-between p-7 py-4 bg-white rounded-md"
+            >
+              <p>
+                Eth - {wallet.address}
+                <br />
+                Balance:{wallet.balance} Eth
+              </p>
+              <div className="text-center mt-4 flex flex-row items-center ">
+                <button
+                  className="btn btn-primary mb-2 mx-6 bg-base-300 text-white hover:bg-black border-0"
+                  onClick={() => openModal(wallet.privateKey)}
+                >
+                  Private Key
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-
       <dialog id="my_modal_4" className="modal">
-        <div className="modal-box w-11/12 max-w-3xl bg-base-100">
+        <div className="modal-box w-11/12 max-w-3xl bg-white">
           <h3 className="font-bold text-lg">Private Key!</h3>
           <p className="py-4">{selectedPrivateKey}</p>
           <div className="modal-action">

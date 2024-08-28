@@ -5,7 +5,6 @@ import Header from "./Header";
 
 const MnemonicPage = () => {
   const [mnemonic, setMnemonic] = useState("");
-  const prevmnemonic = "";
   const divRef = useRef(null);
   const [disabled, setDisabled] = useState(false);
   const [resetbtn, setresetbtn] = useState(false);
@@ -57,7 +56,7 @@ const MnemonicPage = () => {
   };
 
   return (
-    <div className="bg-base-200  min-h-screen">
+    <div className="bg-gradient-to-tr  from-transparent to-slate-200  min-h-screen">
       <Header />
 
       <div className="hero ">
@@ -87,7 +86,7 @@ const MnemonicPage = () => {
             </div>
           </div>
           <div
-            className="bg-base-200 w-75 rounded-md shadow-md shadow-2xl cursor-pointer"
+            className="bg-white w-75 rounded-md shadow-md shadow-2xl cursor-pointer"
             ref={divRef}
             onClick={handleCopy}
           >
